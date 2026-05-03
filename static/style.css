@@ -1,0 +1,8 @@
+*{box-sizing:border-box;font-family:Inter,Segoe UI,Roboto,system-ui,Arial}
+body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f4f7fb}
+.calc{width:320px;background:#fff;border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(30,40,60,0.12)}
+.display{height:72px;background:#0f1724;color:#fff;border-radius:8px;padding:12px;font-size:28px;display:flex;align-items:flex-end;justify-content:flex-end;overflow:hidden}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.btn{height:52px;border-radius:8px;border:0;background:#e6eef8;font-size:18px}
+.btn.operator{background:#f7d794}
+#equals{grid-column:3/4;background:#2b6ef6;color:#fff}
