@@ -1,3 +1,6 @@
+
+[![CI](https://github.com/CookieDD/CalculatorPython/actions/workflows/ci.yml/badge.svg)](https://github.com/CookieDD/CalculatorPython/actions/workflows/ci.yml)
+
 Calculator FastAPI app
 
 This repository contains a small calculator web app implemented with FastAPI (backend) and a static frontend shipped in `static/`.
