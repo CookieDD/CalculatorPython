@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+import logging
 import ast
 import operator as _op
 import uvicorn
@@ -12,6 +13,15 @@ class CalcRequest(BaseModel):
 	op: str | None = None
 	a: float | None = None
 	b: float | None = None
+
+
+class CalcResponse(BaseModel):
+	result: float
+
+
+# basic logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 app = FastAPI(title="Calculator API")
@@ -42,8 +52,13 @@ def _safe_eval(expr: str):
 		if isinstance(n, ast.Expression):
 			return _eval(n.body)
 		if isinstance(n, ast.Constant):
+			# only allow numeric literals
+			if not isinstance(n.value, (int, float)):
+				raise ValueError("Only numeric literals allowed")
 			return n.value
 		if isinstance(n, ast.Num):
+			if not isinstance(n.n, (int, float)):
+				raise ValueError("Only numeric literals allowed")
 			return n.n
 		if isinstance(n, ast.BinOp):
 			left = _eval(n.left)
@@ -83,9 +98,16 @@ async def calc(req: CalcRequest):
 		else:
 			raise HTTPException(status_code=400, detail="Invalid request payload")
 
-		return {"result": result}
-	except Exception as e:
+		return CalcResponse(result=result)
+	except ValueError as e:
 		raise HTTPException(status_code=400, detail=str(e))
+	except ZeroDivisionError:
+		raise HTTPException(status_code=400, detail="Division by zero")
+	except HTTPException:
+		raise
+	except Exception as e:
+		logger.exception("Unhandled error in /api/calc")
+		raise HTTPException(status_code=500, detail="Internal server error")
 
 
 if __name__ == "__main__":
