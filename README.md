@@ -15,5 +15,3 @@ Authorship & Repository Management
 
 Notes
 - Review the code before deploying to production. The AI Agent implemented and pushed the initial project code and repository configuration; any further changes should be audited and approved by a human maintainer.
-
-If you want me to expand this README with examples, tests, or deployment steps, tell me what to add.
